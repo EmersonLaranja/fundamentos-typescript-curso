@@ -17,9 +17,6 @@ services:
     build: .
     ports:
       - "3000:3000"
-    depends_on:
-      - db
-      - redis
     environment:
       - DB_HOST=db
     # irá montar a pasta atual para dentro do container em "/app".

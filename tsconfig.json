@@ -9,6 +9,8 @@
     "noEmitOnError": true, //nem compile se houver erros
     "noImplicitAny": true, //Não permita que um tipo seja inferido como any
     "strictNullChecks": true, //Não permita que null e undefined seja atribuído a um tipo que não seja null
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
   },
   "include": [ //Leia em qualquer arquivo dentro da pasta src e o arquivo server.ts
     "./src/**/*",
