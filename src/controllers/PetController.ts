@@ -1,16 +1,16 @@
 import { Request, Response } from "express";
-import type TipoPet  from "../types/Pet";
+import PetEntity from "../entities/PetEntity.js";
 
-const listaDePets: Array<TipoPet> = [];
+const listaDePets: Array<PetEntity> = [];
 class PetController{
   
   criaPet(req:Request,res:Response){
     const {id,descricao,nome,idade,especie,adotado}=req.body;
-    // const novoPet:Pet={id,nome,idade,especie,adotado}; //mostrar que sem descricao funciona
-    const novoPet:TipoPet={id,nome,idade,especie,descricao,adotado};
+    
+    const novoPet=new PetEntity(id,nome,idade,especie,adotado)
     listaDePets.push(novoPet);
     console.log(novoPet)
-    return res.json(novoPet.adotado);
+    return res.json(novoPet);
   }
 
   listaPets(req:Request,res:Response) {
@@ -19,7 +19,7 @@ class PetController{
 
   listaPetPelaEspecie(req:Request,res:Response){
     const {animalProcurado}=req.params;
-    const petProcurado=listaDePets.find((pet:TipoPet)=>{
+    const petProcurado=listaDePets.find((pet:PetEntity)=>{
       if(pet.especie === animalProcurado){
         return res.json(pet);
       }
@@ -34,7 +34,7 @@ class PetController{
   atualizaPet(req:Request,res:Response){
     const {id}=req.params;
     const {nome,idade,especie,descricao,adotado}=req.body;
-    const petProcurado=listaDePets.find((pet:TipoPet)=>{
+    const petProcurado=listaDePets.find((pet:PetEntity)=>{
       if(pet.id === Number(id)){
         pet.nome=nome;
         pet.idade=idade;
@@ -48,7 +48,7 @@ class PetController{
 
   deletaPet(req:Request,res:Response){
     const {id}=req.params;
-    const petDeletado=listaDePets.find((pet:TipoPet)=>{
+    const petDeletado=listaDePets.find((pet:PetEntity)=>{
       if(pet.id === Number(id)){
         return res.json(pet);
       }

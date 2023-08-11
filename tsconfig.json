@@ -3,37 +3,20 @@
     "outDir": "./built", //Emita todos os arquivos de saída em built
     "allowJs": true, //Aceita importar arquivos .js
     "esModuleInterop": true,
-    // "target": "es5" //Traduza construções JavaScript mais recentes para uma versão mais antiga, como ECMAScript 5
     "target": "es2022",
     //! Rigorosas configurações de compilação:
     "noEmitOnError": true, //nem compile se houver erros
     "noImplicitAny": true, //Não permita que um tipo seja inferido como any
     "strictNullChecks": true, //Não permita que null e undefined seja atribuído a um tipo que não seja null
+    //! Precisa pro typeORM
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "moduleResolution": "node",
+    //!Classe
+    "strictPropertyInitialization": true,
   },
   "include": [ //Leia em qualquer arquivo dentro da pasta src e o arquivo server.ts
     "./src/**/*",
     "./server.ts"
   ],
-  // NEW: Options for file/directory watching
-  "watchOptions": {
-    // Use native file system events for files and directories
-    "watchFile": "useFsEvents",
-    "watchDirectory": "useFsEvents",
-    // Poll files for updates more frequently
-    // when they're updated a lot.
-    "fallbackPolling": "dynamicPriority",
-    // Don't coalesce watch notification
-    "synchronousWatchDirectory": true,
-    // Finally, two additional settings for reducing the amount of possible
-    // files to track  work from these directories
-    "excludeDirectories": [
-      "**/node_modules",
-      "_build"
-    ],
-    "excludeFiles": [
-      "build/fileWhichChangesOften.ts"
-    ]
-  }
 }
