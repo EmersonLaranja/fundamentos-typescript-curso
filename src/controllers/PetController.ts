@@ -42,6 +42,9 @@ export type Pet = {
   nome: string;
   idade: number;
   especie: string;
+  // descricao: string;
+  // adotado:false;
+
 };
 
 
@@ -50,8 +53,8 @@ const listaDePets: Array<Pet> = [];
 class PetController{
   
   criaPet(req:Request,res:Response){
-    const {nome,idade,especie}=req.body;
-    const novoPet={nome,idade,especie}
+    const {id,descricao,nome,idade,especie,adotado}=req.body;
+    const novoPet:Pet={id,nome,idade,especie}
     listaDePets.push();
     return res.json(novoPet);
   }
