@@ -1,15 +1,20 @@
 import { Request, Response } from "express";
 import PetEntity from "../entities/PetEntity.js";
-
+import PetRepository from "../repositories/PetRepository.js";
+import { AppDataSource } from "../config/data-source.js";
 const listaDePets: Array<PetEntity> = [];
-class PetController{
+export default class PetController{
+constructor(private repository: PetRepository){};
   
   criaPet(req:Request,res:Response){
-    const {id,descricao,nome,idade,especie,adotado}=req.body;
-    
+    const {id,nome,idade,especie,adotado}=req.body;
     const novoPet=new PetEntity(id,nome,idade,especie,adotado)
-    listaDePets.push(novoPet);
-    console.log(novoPet)
+    // this.repository.createPet(novoPet);
+    // console.log(this.repository)
+    const petRepository = new PetRepository(AppDataSource.getRepository("PetEntity"));
+    console.log(petRepository)
+    petRepository.createPet(novoPet)
+
     return res.json(novoPet);
   }
 
@@ -63,4 +68,3 @@ class PetController{
 
 }
 
-export default new PetController();

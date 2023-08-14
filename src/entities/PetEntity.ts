@@ -1,17 +1,25 @@
-import { Entity, PrimaryColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export default class PetEntity {
-  @PrimaryColumn({generated: "increment"})
+  @PrimaryGeneratedColumn()
   id:number;
-  nome: string;
-  idade: number;
-  especie: string;
-  descricao?: string;
-  adotado:boolean;
-  abrigo_id?:number;
-  vacinas?:string[];
+  @Column()
+   nome: string;
+  @Column()
+   idade: number;
+  @Column()
+   especie: string;
+  @Column()
+   adotado:boolean;
+   @Column({nullable:true})
+   descricao?: string;
+  @Column({nullable:true})
+   abrigo_id?:number;
+  // @Column()
+  //  vacinas?:string[];
 
+ 
   constructor(id:number, nome: string, idade: number, especie: string, adotado=false, descricao?: string,  abrigo_id?:number) {
     this.id = id;
     this.nome = nome;
