@@ -10,25 +10,15 @@ export default class PetController {
     const { id, nome, idade, especie, adotado } = req.body;
     const novoPet = new PetEntity(id, nome, idade, especie, adotado);
     this.repository.createPet(novoPet);
-    console.log(this.repository);
 
     return res.status(201).json(novoPet);
   }
 
-  listaPets(req: Request, res: Response) {
-    const listaDePets = this.repository.listaPets();
+  async listaPets(req: Request, res: Response) {
+    const listaDePets = await this.repository.listaPets();
     return res.json(listaDePets);
   }
 
-  listaPetsPelaEspecie(req: Request, res: Response) {
-    const { especie } = req.params;
-    const petProcurado = this.repository.listaPetsPelaEspecie(especie);
-
-    if (!petProcurado) {
-      return res.status(404).json({ message: "pet não encontrado" });
-    }
-    return res.json(petProcurado);
-  }
   atualizaPet(req: Request, res: Response) {
     const { id } = req.params;
     const { nome, idade, especie, descricao, adotado } = req.body;
@@ -44,17 +34,10 @@ export default class PetController {
     });
   }
 
-  deletaPet(req: Request, res: Response) {
+  async deletaPet(req: Request, res: Response) {
     const { id } = req.params;
-    const petDeletado = listaDePets.find((pet: PetEntity) => {
-      if (pet.id === Number(id)) {
-        return res.json(pet);
-      }
-    });
 
-    if (!petDeletado) {
-      return "pet não encontrado";
-    }
-    return res.json(petDeletado);
+    await this.repository.deletaPet(Number(id));
+    return res.sendStatus(204);
   }
 }
