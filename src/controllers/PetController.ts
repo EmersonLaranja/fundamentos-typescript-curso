@@ -21,23 +21,17 @@ export default class PetController {
 
   atualizaPet(req: Request, res: Response) {
     const { id } = req.params;
-    const { nome, idade, especie, descricao, adotado } = req.body;
-    const petProcurado = listaDePets.find((pet: PetEntity) => {
-      if (pet.id === Number(id)) {
-        pet.nome = nome;
-        pet.idade = idade;
-        pet.especie = especie;
-        pet.descricao = descricao;
-        pet.adotado = adotado;
-        return res.json(pet);
-      }
-    });
+    this.repository.atualizaPet(Number(id),req.body);
   }
 
   async deletaPet(req: Request, res: Response) {
     const { id } = req.params;
 
-    await this.repository.deletaPet(Number(id));
-    return res.sendStatus(204);
+    const {success,message}=await this.repository.deletaPet(Number(id));
+    
+    if(!success){
+      return res.status(404).json({message});
+    }
+    return res.sendStatus(204).json(message);
   }
 }

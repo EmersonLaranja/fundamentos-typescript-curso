@@ -13,19 +13,39 @@ export default class PetRepository implements InterfacePetRepository {
     return await this.repository.find();
   }
 
-  // async atualizaPet(id: number): PetEntity | Promise<PetEntity> {
-  //   const petToUpdate = await this.repository.findOne({ where: { id } });
-  //   if (petToUpdate) {
-  //     Object.assign(petToUpdate, updatedPet); // Atualiza as propriedades do pet com os novos valores
-  //     await this.repository.save(petToUpdate);
-  //   }
-  //   // Pode adicionar lógica para lidar com o caso em que o pet não é encontrado
-  // }
-
-  async deletaPet(id: number): Promise<void> {
-    const petToRemove = await this.repository.findOne({ where: { id } });
-    if (!petToRemove) {
-      throw new Error("Pet não encontrado");
-    } else await this.repository.remove(petToRemove);
+  async atualizaPet(id: number, newData: PetEntity): Promise<{ success: boolean; message?: string }> {
+    try {
+      const petToUpdate = await this.repository.findOne({ where: { id } });
+  
+      if (!petToUpdate) {
+        return { success: false, message: "Pet não encontrado" };
+      }
+  
+      Object.assign(petToUpdate, newData);
+  
+      await this.repository.save(petToUpdate);
+  
+      return { success: true };
+    } catch (error) {
+      return { success: false, message: "Ocorreu um erro ao tentar atualizar o pet." };
+    }
+  }
+    
+  
+  async deletaPet(id: number): Promise<{ success: boolean; message?: string }> {
+    try {
+      const petToRemove = await this.repository.findOne({ where: { id } });
+  
+      if (!petToRemove) {
+        return { success: false, message: "Pet não encontrado" };
+      }
+  
+      await this.repository.remove(petToRemove);
+  
+      return { success: true };
+    } catch (error) {
+      // Se ocorrer um erro inesperado, você pode retornar uma mensagem genérica ou personalizada.
+      return { success: false, message: "Ocorreu um erro ao tentar excluir o pet." };
+    }
   }
 }
